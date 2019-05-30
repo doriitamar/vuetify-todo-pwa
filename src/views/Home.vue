@@ -2,12 +2,13 @@
   <v-layout row wrap>
     <v-flex text-xs-center>
       <!-- header -->
-      <h1 class="primary--text display-3 font-weight-medium my-3">זה מה שנגה אוכלת</h1>
+      <h1 class="primary--text display-2 font-weight-medium my-3">זה מה שנגה אוכלת</h1>
       <h6 class="primary--text display-1 font-weight-medium my-3">(וגם מה שלא)</h6>
       <v-card>
         <v-list class="pa-0">
           <v-list-tile>
             <v-text-field
+              @keydown.enter="$event.target.blur()"
               autofocus
               browser-autocomplete="off"
               clearable
@@ -30,25 +31,6 @@
             לנגה מותר לאכול {{ remaining }} מתוך {{ foods.length }} אוכלים!
           </span>
           <v-spacer></v-spacer>
-          <v-btn-toggle
-            class="elevation-0"
-            mandatory
-            v-model="visibility"
-            v-show="foods.length"
-          >
-            <v-btn
-              :key="key"
-              :to="key"
-              :value="key"
-              class="mx-0"
-              color="primary"
-              flat
-              small
-              v-for="(val, key) in filters"
-            >
-              {{ key | capitalize }}
-            </v-btn>
-          </v-btn-toggle>
         </v-card-actions>
         <v-list class="pa-0">
           <template v-for="food in filteredFoods">
