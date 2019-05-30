@@ -6,12 +6,18 @@ Vue.use(Vuex)
 const STORAGE_KEY = 'vuetify-todos'
 
 const state = {
-  todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
+  foods: [],
+  todos: []
 }
 
 const mutations = {
   addTodo (state, todo) {
-    state.todos.push(todo)
+    if (!state.todos.includes(todo)) {
+      state.todos.push(todo)
+    }
+  },
+  addFood (state, food) {
+    state.foods.push(food)
   },
   removeTodo (state, todo) {
     state.todos.splice(state.todos.indexOf(todo), 1)
@@ -28,6 +34,13 @@ const actions = {
       uid: Date.now(),
       text,
       done: false
+    })
+  },
+  addFood ({ commit }, { text, isOkay }) {
+    commit('addFood', {
+      uid: ((Math.random() * 1000) + 1),
+      text,
+      isOkay
     })
   },
   removeTodo ({ commit }, todo) {

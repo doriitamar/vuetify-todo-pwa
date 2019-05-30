@@ -1,58 +1,29 @@
 <template>
-  <v-list-tile class="todo-item" :class="{ 'editing': editing }">
+  <v-list-tile class="food-item">
     <v-list-tile-action>
-      <v-checkbox
-        :input-value="todo.done"
-        @change="toggleTodo(todo)"
-        color="primary"
-        v-if="!editing"
-      ></v-checkbox>
       <v-icon
-        color="primary"
+        color="green"
+        v-if="food.isOkay"
+      >done</v-icon>
+      <v-icon
+        color="error"
         v-else
-      >edit</v-icon>
+      >close</v-icon>
     </v-list-tile-action>
     <template v-if="!editing">
-      <v-list-tile-content
-        :class="{ 'primary--text': todo.done }"
-        @dblclick="editing = true"
-      >
-        {{ todo.text }}
+      <v-list-tile-content>
+        {{ food.text }}
       </v-list-tile-content>
       <v-list-tile-action>
-        <v-btn
-          @click="removeTodo(todo)"
-          color="red lighten-3"
-          flat
-          icon
-        >
-          <v-icon>close</v-icon>
-        </v-btn>
       </v-list-tile-action>
     </template>
-    <v-text-field
-      :value="todo.text"
-      @blur="doneEdit"
-      @keyup.enter="doneEdit"
-      @keyup.esc="cancelEdit"
-      clearable
-      color="primary"
-      flat
-      hide-details
-      maxlength="1023"
-      ref="input"
-      solo
-      v-else
-      v-focus="editing"
-    ></v-text-field>
   </v-list-tile>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 
 export default {
-  props: ['todo'],
+  props: ['food'],
   data () {
     return {
       editing: false
@@ -66,35 +37,12 @@ export default {
         })
       }
     }
-  },
-  methods: {
-    ...mapActions([
-      'editTodo',
-      'removeTodo',
-      'toggleTodo'
-    ]),
-    doneEdit (e) {
-      const value = e.target.value.trim()
-      const { todo } = this
-      if (!value) {
-        this.removeTodo(todo)
-      } else if (this.editing) {
-        this.editTodo({
-          todo,
-          value
-        })
-        this.editing = false
-      }
-    },
-    cancelEdit () {
-      this.editing = false
-    }
   }
 }
 </script>
 
 <style lang="stylus">
-.todo-item
+.food-item
   .v-list__tile
     height: auto
     padding-top: 12px
